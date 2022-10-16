@@ -20,11 +20,12 @@ public class Game {
         CreateCardlist();
         showPlayer();
 
+        shwlistedcards();
+        dealer.Shuffled(deck);
+        // System.out.println("list after shuffle");
         // shwlistedcards();
-        //dealer.Shuffled(deck);
-        //System.out.println("list after shuffle");
-        //shwlistedcards();
         betPrice();
+        //dealer.ShowFirstCardDealer();
 
     }
 
@@ -103,9 +104,67 @@ public class Game {
 
     }
 
-    public void challenging(){
-        System.out.println("ddddddddddd");
+
+    public void checkingScore(){
+        if (player.score > 21) {
+            showState();
+            player.setCoins(player.getCoins() - player.getBet());
+            //dealer.defausserCarte(getCarteDefausser(),palyer);
+            //this.replay();
+        }
+
+        else if(player.score == 21)
+        {
+            player.getPlayerhand();
+            compareScores();
+        }
+
+        else
+        {
+            standOrhit();
+        }
     }
+    }
+
+    public void challenging() {
+        dealer.piocheCarte(deck,this.player);
+//=======================================================//
+       showState();
+    }
+
+    public void showState(){
+        System.out.println("Dealer Hand :=>");
+        dealer.ShowFirstCardDealer();
+        System.out.println("============================");
+        System.out.println("Player Hand :=>");
+        player.playerHand();
+        player.calcPlayerHands();
+        System.out.println("Payer Score :" + player.getScore());
+    }
+
+    public void compareScores(){}
+
+
+    public void standOrhit(){
+        int ch;
+            System.out.println("\t1=> Hit");
+            System.out.println("\t2=> Stand");
+            ch = s.nextInt();
+
+            switch(ch){
+                case 1 :{
+                    player.playerDraw(deck);
+                    player.checkScore();
+                    break;
+
+                }
+                case 2 :{
+                    compareScores();
+                    break;
+                }
+            }
+    }
+
 }
 
 

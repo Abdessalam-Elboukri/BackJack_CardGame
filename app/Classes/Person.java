@@ -12,6 +12,8 @@ public class Person {
     protected static int lose=0;
     protected static int tie=0 ;
 
+    //protected  ArrayList<Card> cards = new ArrayList<>();
+
 
 
     public Person( String name,int score, int win, int lose, int tie) {

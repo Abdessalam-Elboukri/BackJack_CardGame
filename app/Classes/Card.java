@@ -25,5 +25,13 @@ public class Card {
     public void setCouleur(int couleur) {
         this.couleur = couleur;
     }
+
+    @Override
+    public String toString() {
+        return
+                "(" + hauteur +
+                ", " + couleur +
+                ')';
+    }
 }
 

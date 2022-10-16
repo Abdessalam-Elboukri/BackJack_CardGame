@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 public class Player extends Person{
 
-    private static int coins=2000;
+    private static int coins=6000;
     private int bet;
-    private ArrayList<Card> playerhand = new ArrayList<Card>();
+    protected ArrayList<Card> playerhand = new ArrayList<Card>();
 
     Scanner s = new Scanner(System.in);
 
@@ -54,11 +54,22 @@ public class Player extends Person{
         this.coins = coins;
     }
 
+    public ArrayList<Card> getPlayerhand() {
+        return playerhand;
+    }
+
     public void CheckCoins(){
         if(this.coins<=0){
             System.out.println("Insufissant Coins");
             System.out.println(" 1=> Back to Menu");
         }
+    }
+
+    public boolean checkScore(){
+        if(this.score>21){
+            System.out.println("Dealer Win");
+        }
+        return false;
     }
 
     public void gainCoins(int gain){
@@ -77,21 +88,22 @@ public class Player extends Person{
     }
 
 
-    public void calcDealerHands(){
+    public int calcPlayerHands(){
         this.score=0;
         int plyaerScore = this.score;
-        for(Card Dealerhand : this.playerhand){
-            if(Dealerhand.getHauteur()==1 && plyaerScore>=10){
+        for(Card playerhand : this.playerhand){
+            if(playerhand.getHauteur()==1 && plyaerScore>=10){
                 this.score += 1;
                 plyaerScore-=10;
-            }else if(Dealerhand.getHauteur()==1 && plyaerScore<=10) {
+            }else if(playerhand.getHauteur()==1 && plyaerScore<=10) {
                 this.score += 11;
-            }else if(Dealerhand.getHauteur()==11 || Dealerhand.getHauteur()==12 || Dealerhand.getHauteur()==13 ){
+            }else if(playerhand.getHauteur()==11 || playerhand.getHauteur()==12 || playerhand.getHauteur()==13 ){
                 this.score+=10;
             }else{
-                this.score+=Dealerhand.getHauteur();
+                this.score+=playerhand.getHauteur();
             }
         }
+        return  this.score;
     }
 
 

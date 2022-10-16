@@ -54,7 +54,7 @@ public class Dealer extends Person {
         return cards;
     }
 
-        public void calcDealerHands(){
+        public int calcDealerHands(){
         this.score=0;
         int DealerScore = this.score;
         for(Card Dealerhand : this.Dealerhand){
@@ -69,6 +69,22 @@ public class Dealer extends Person {
                 this.score+=Dealerhand.getHauteur();
             }
         }
+        return  this.score;
+        }
+
+    public void piocheCarte(ArrayList<Card> piocheCard,Player player){
+        this.Dealerhand.add(piocheCard.get(0));
+        piocheCard.remove(0);
+        player.playerhand.add(piocheCard.get(0));
+        piocheCard.remove(0);
+        player.playerhand.add(piocheCard.get(0));
+        piocheCard.remove(0);
+        this.Dealerhand.add(piocheCard.get(0));
+        piocheCard.remove(0);
+    }
+
+        public void ShowFirstCardDealer(){
+            System.out.println(this.Dealerhand.get(0));
         }
 
 
