@@ -22,14 +22,15 @@ public class Player extends Person{
         return bet;
     }
 
-    public boolean setBet(int bet) {
+    public void setBet(int bet) {
+        Game game= new Game();
         if(this.coins>=bet){
             this.coins-=bet;
             this.bet =bet;
-            return true;
+
         }else{
-            System.out.println("Game Over :( No much Coins");
-            return false;
+            System.out.println(" :( No much Coins");
+            game.betPrice();
         }
     }
 
@@ -46,7 +47,7 @@ public class Player extends Person{
         this.score = score;
     }
 
-    public static int getCoins() {
+    public  int getCoins() {
         return coins;
     }
 

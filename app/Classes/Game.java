@@ -3,8 +3,11 @@ package app.Classes;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 public class Game {
     private ArrayList<Card> deck = new ArrayList<Card>();
+    private ArrayList<Card> cardDeffause = new ArrayList<>();
     Player player = new Player();
     Dealer dealer = new Dealer();
     Scanner s = new Scanner(System.in);
@@ -12,6 +15,7 @@ public class Game {
     public ArrayList<Card> getDeck() {
         return this.deck;
     }
+    public ArrayList<Card> getCardDeffause(){return this.cardDeffause;}
 
     public void StartGame() {
         int ch = 0;
@@ -50,8 +54,8 @@ public class Game {
     }
 
     public void showPlayer() {
-        System.out.println("Player Name : " + Player.getName() + "  ||  Player coins : " + Player.getCoins() + "  ||  Wins : " + Player.getWin() + "  ||  Loses : " + Player.getLose()
-                + "  ||  Ties : " + Player.getTie());
+        System.out.println("Player Name : " + player.getName() + "  ||  Player coins : " + player.getCoins() + "  ||  Wins : " + player.getWin() + "  ||  Loses : " + player.getLose()
+                + "  ||  Ties : " + player.getTie());
     }
 
     public void shwlistedcards() {
@@ -66,7 +70,7 @@ public class Game {
     public void betPrice() {
         int choice;
         do {
-            System.out.println("Player Coins : " + Player.getCoins());
+            showPlayer();
             System.out.println("Chose your bet Price =>");
             System.out.println("+++++++++++++++");
             System.out.println("1=> 100 ");
@@ -106,11 +110,13 @@ public class Game {
 
 
     public void checkingScore(){
+        showState();
         if (player.score > 21) {
-            showState();
+            System.out.println("Dealer Win");
+            player.setLose(player.getLose()+1);
             player.setCoins(player.getCoins() - player.getBet());
-            //dealer.defausserCarte(getCarteDefausser(),palyer);
-            //this.replay();
+            dealer.cardsDeffausse(getCardDeffause(),player,deck );
+            this.replay();
         }
 
         else if(player.score == 21)
@@ -123,13 +129,14 @@ public class Game {
         {
             standOrhit();
         }
+
     }
-    }
+
 
     public void challenging() {
         dealer.piocheCarte(deck,this.player);
 //=======================================================//
-       showState();
+        checkingScore();
     }
 
     public void showState(){
@@ -142,7 +149,77 @@ public class Game {
         System.out.println("Payer Score :" + player.getScore());
     }
 
-    public void compareScores(){}
+
+    public void compareScores(){
+        dealer.calcDealerHands();
+        System.out.print("\nDealer Cards :\t\t");  dealer.dealerHand();
+        System.out.println("Dealer Score : " + dealer.score);
+
+        if (dealer.score < 17)
+        {
+            dealer.DealerDraw(deck);
+            compareScores();
+        }
+        //while(dealer.score<17){
+          //  dealer.DealerDraw(deck);
+        //}
+
+        else if(dealer.score > 21)
+        {
+            System.out.println("player win");
+            player.setWin(player.getWin()+1);
+            player.setCoins(player.getCoins()+ player.getBet());
+            dealer.cardsDeffausse(getCardDeffause(),player,deck );
+            this.replay();
+        }
+
+        else if(dealer.score == player.score)
+        {
+            System.out.println("Tie");
+            player.setTie(player.getTie()+1);
+            dealer.cardsDeffausse(getCardDeffause(),player,deck );
+            this.replay();
+        }
+
+        else if(dealer.score < player.score )
+        {
+            System.out.println("player win");
+            player.setWin(player.getWin()+1);
+            player.setCoins(player.getCoins() + player.getBet());
+            dealer.cardsDeffausse(getCardDeffause(),player,deck );
+            this.replay();
+        }
+
+        else if(dealer.score == 21)
+        {
+            System.out.println("dealer win");
+            player.setLose(player.getLose()+1);
+            player.setCoins(player.getCoins() - player.getBet());
+            dealer.cardsDeffausse(getCardDeffause(),player,deck );
+            this.replay();
+        }
+
+        else if (dealer.score < 21 && player.score == 21)
+        {
+            System.out.println("player win");
+            player.setWin(player.getWin()+1);
+            player.setCoins(player.getCoins() + player.getBet());
+            dealer.cardsDeffausse(getCardDeffause(),player,deck );
+            this.replay();
+        }
+
+        else
+        {
+            System.out.println("Dealer win");
+            player.setLose(player.getLose()+1);
+            player.setCoins(player.getCoins() - player.getBet());
+            dealer.cardsDeffausse(getCardDeffause(),player,deck );
+            this.replay();
+        }
+    }
+
+
+
 
 
     public void standOrhit(){
@@ -154,7 +231,7 @@ public class Game {
             switch(ch){
                 case 1 :{
                     player.playerDraw(deck);
-                    player.checkScore();
+                    checkingScore();
                     break;
 
                 }
@@ -163,6 +240,26 @@ public class Game {
                     break;
                 }
             }
+    }
+
+    private void replay() {
+        System.out.println("1=> \tPlay again");
+        System.out.println("0=> \tQuiter");
+
+        int ch ;
+        System.out.println("Your choice : ");
+        ch=s.nextInt();
+        switch (ch){
+            case 1 : {
+                betPrice();
+                break;
+            }
+            case 2 : {
+                exit(0);
+            }
+        }
+
+
     }
 
 }

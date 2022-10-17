@@ -2,6 +2,8 @@ package app.Classes;
 
 import java.util.Scanner;
 
+import static java.lang.System.exit;
+
 public class Menu {
     static Scanner s = new Scanner(System.in);  // Create a Scanner object
 
@@ -18,6 +20,8 @@ public class Menu {
             choice = s.nextInt();
             if(choice ==1){
                 game.StartGame();
+            }else{
+                exit(0);
             }
 
 

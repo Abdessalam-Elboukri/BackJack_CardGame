@@ -31,6 +31,10 @@ public class Dealer extends Person {
         }
     }
 
+    public ArrayList<Card> getDealerhand() {
+        return Dealerhand;
+    }
+
     public ArrayList tirerUneCarte(ArrayList arr) {
             Random random = new Random();
             int n = random.nextInt(52);
@@ -86,6 +90,18 @@ public class Dealer extends Person {
         public void ShowFirstCardDealer(){
             System.out.println(this.Dealerhand.get(0));
         }
+
+
+    public void cardsDeffausse(ArrayList<Card> carteDefuaser,Player player, ArrayList<Card> cards) {
+
+        carteDefuaser.addAll(cards);
+        carteDefuaser.addAll(player.playerhand);
+        this.Dealerhand.clear();
+        player.playerhand.clear();
+        player.score = 0;
+        this.score = 0;
+        player.setBet(0);
+    }
 
 
 
